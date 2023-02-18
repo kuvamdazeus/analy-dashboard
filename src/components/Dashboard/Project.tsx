@@ -1,9 +1,9 @@
-import { Project } from "@prisma/client";
+import type { Project as ProjectType } from "@prisma/client";
 import { useRouter } from "next/router";
 import { FiExternalLink } from "react-icons/fi";
 
 interface Props {
-  project: Project;
+  project: ProjectType;
 }
 
 export default function Project({ project }: Props) {
