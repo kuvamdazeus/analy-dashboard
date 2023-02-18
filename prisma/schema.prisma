@@ -2,16 +2,62 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "sqlite"
-    url      = env("DATABASE_URL")
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model User {
+  id String @id @default(uuid())
+
+  username   String @unique
+  email      String @unique
+  name       String
+  avatar_url String
+
+  projects Project[]
+}
+
+model Project {
+  id String @id @default(uuid())
+
+  name    String
+  url     String
+  key     String @unique
+  user_id String
+
+  is_public Boolean @default(false)
+  created_at DateTime @default(now())
+
+  sessions Session[]
+  user     User      @relation(fields: [user_id], references: [id])
+}
+
+model Session {
+  id          String @id
+  user_hash   String
+  project_key String
+
+  created_at DateTime @default(now())
+
+  events  Event[]
+  project Project @relation(fields: [project_key], references: [key])
+}
+
+model Event {
+  id         String @id @default(uuid())
+  session_id String
+
+  name       String
+  window_url String
+  date       String
+  referrer   String   @default("")
+  country    String   @default("")
+  parsed_url String
+  created_at DateTime
+
+  session Session @relation(fields: [session_id], references: [id])
 }
