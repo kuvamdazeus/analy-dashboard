@@ -36,6 +36,8 @@ export default async function handler(
     }
   ).then((res) => res.json());
 
+  return response.json({ login, avatar_url, email, name });
+
   const { id } = await prisma.user.upsert({
     where: { email },
     update: {},
