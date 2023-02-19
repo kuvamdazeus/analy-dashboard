@@ -1,4 +1,3 @@
-import { GH_CLIENT_ID } from "@/constants";
 import { prisma } from "@/server/db";
 import { userCookie } from "@/server/utils/cookies";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -20,7 +19,7 @@ export default async function handler(
         Accept: "application/json",
       },
       body: JSON.stringify({
-        client_id: GH_CLIENT_ID,
+        client_id: process.env.NEXT_PUBLIC_GH_CLIENT_ID,
         client_secret: process.env.GH_CLIENT_SECRET,
         code,
       }),

@@ -10,11 +10,10 @@ export const DURATIONS: { label: string; value: Duration }[] = [
   { label: "All time", value: "all" },
 ];
 
-export const GH_CLIENT_ID = "f38b8d298ef9981e650b";
 export const REDIRECT_URI =
   process.env.NODE_ENV === "production"
     ? "..."
     : "http://localhost:3000/api/callback";
 
 export const GITHUB_OAUTH_URI = (state = "") =>
-  `https://github.com/login/oauth/authorize?client_id=${GH_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=read:user,user:email&state=${state}`;
+  `https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GH_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=read:user,user:email&state=${state}`;
