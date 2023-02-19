@@ -1,4 +1,6 @@
+import DashboardChart from "@/components/Dashboard/DashboardChart";
 import Navbar from "@/components/Dashboard/Navbar";
+import RealtimeStats from "@/components/Dashboard/RealtimeStats";
 import Summary from "@/components/Dashboard/Summary";
 import TopPages from "@/components/Dashboard/TopPages";
 import TopSources from "@/components/Dashboard/TopSources";
@@ -15,6 +17,12 @@ export default function ProjectPage() {
           <TopPages />
 
           <TopSources />
+        </div>
+
+        <DashboardChart />
+
+        <div className="my-5 flex gap-5">
+          <RealtimeStats />
         </div>
       </section>
     </>
