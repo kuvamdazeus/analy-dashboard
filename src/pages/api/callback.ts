@@ -31,7 +31,7 @@ export default async function handler(
     "https://api.github.com/user",
     {
       headers: {
-        Authorization: `token ${access_token}`,
+        Authorization: `Bearer ${access_token}`,
       },
     }
   ).then((res) => res.json());
