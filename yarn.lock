@@ -1436,6 +1436,14 @@ ajv@^6.10.0, ajv@^6.12.4:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
+analy@^0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/analy/-/analy-0.2.5.tgz#797b90e527b3fd724ed6a96fe02df130bf3065fc"
+  integrity sha512-cqL/h1zhuyy2/H9zJ4Tmb9nVdLddqIQuKUZfIrRlvnl7UbRASGJZH0+P/cA6uDrERkV5kjJT+3MHbL37/cabZQ==
+  dependencies:
+    crypto-js "^4.1.1"
+    uuid "^9.0.0"
+
 ansi-regex@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-5.0.1.tgz#082cb2c89c9fe8659a311a53bd6a4dc5301db304"
@@ -1754,6 +1762,11 @@ cross-spawn@^7.0.2, cross-spawn@^7.0.3:
     path-key "^3.1.0"
     shebang-command "^2.0.0"
     which "^2.0.1"
+
+crypto-js@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.1.1.tgz#9e485bcf03521041bd85844786b83fb7619736cf"
+  integrity sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==
 
 css-box-model@1.2.1:
   version "1.2.1"
