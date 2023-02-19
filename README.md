@@ -1,28 +1,36 @@
-# Create T3 App
+# Analy Dashboard
 
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
 
-## What's next? How do I make an app with this?
+### Quicklinks
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+- [T3 Docs](https://create.t3.gg/)
+- [tRPC Docs](https://trpc.io)
+- [NPM package (analy)](https://www.npmjs.com/package/analy)
+- [Github repo (analy)](https://github.com/kuvamdazeus/analy)
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Development
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+To run the app locally, make sure your project's local dependencies are installed:
 
-## Learn More
+```sh
+yarn
+```
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+Afterwards, start the Remix development server like so:
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+```sh
+yarn dev
+```
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+Lastly, set up `.env` file for the project:
 
-## How do I deploy this?
+```python
+DATABASE_URL = "mysql://root:admin@127.0.0.1:3307/analy"
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+GH_CLIENT_SECRET = "<gh-client-secret-here>"
+
+COOKIE_SECRET = "some random string..."
+```
+
+Open up [http://localhost:3000](http://localhost:3000) and you should be ready to go!

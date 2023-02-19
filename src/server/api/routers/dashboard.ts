@@ -1,4 +1,4 @@
-import { createTRPCRouter, publicProcedure, t } from "../trpc";
+import { createTRPCRouter, publicProcedure } from "../trpc";
 import { z } from "zod";
 import { Duration, durationSchema } from "@/types";
 import { TRPCError } from "@trpc/server";
@@ -99,9 +99,9 @@ export const dashboardRouter = createTRPCRouter({
       let avgSessionsDuration = 0;
 
       for (let session of sessions) {
-        let dates: Date[] = [];
+        const dates: Date[] = [];
 
-        for (let event of session.events) {
+        for (const event of session.events) {
           dates.push(event.created_at);
         }
 

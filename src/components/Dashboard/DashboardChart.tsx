@@ -96,7 +96,7 @@ export default function DashboardChart() {
     [chart.data]
   );
 
-  const fetchChartData = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const fetchChartData = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setDuration(e.target.value as Duration);
   };
 
