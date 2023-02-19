@@ -17,3 +17,5 @@ export const REDIRECT_URI =
 
 export const GITHUB_OAUTH_URI = (state = "") =>
   `https://github.com/login/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_GH_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=read:user,user:email&state=${state}`;
+
+console.log(REDIRECT_URI);
