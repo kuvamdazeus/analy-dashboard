@@ -12,7 +12,7 @@ export const DURATIONS: { label: string; value: Duration }[] = [
 
 export const REDIRECT_URI =
   process.env.NODE_ENV === "production"
-    ? "..."
+    ? "https://analy-dashboard.vercel.app"
     : "http://localhost:3000/api/callback";
 
 export const GITHUB_OAUTH_URI = (state = "") =>
