@@ -36,21 +36,23 @@ export default async function handler(
     }
   ).then((res) => res.json());
 
-  return response.json({ login, avatar_url, email, name });
+  try {
+    const { id } = await prisma.user.upsert({
+      where: { email },
+      update: {},
+      create: {
+        username: login,
+        email,
+        name,
+        avatar_url,
+      },
+    });
+  } catch (err) {
+    return response.send(err);
+  }
 
-  const { id } = await prisma.user.upsert({
-    where: { email },
-    update: {},
-    create: {
-      username: login,
-      email,
-      name,
-      avatar_url,
-    },
-  });
+  // userCookie.set(id, response);
 
-  userCookie.set(id, response);
-
-  if (state) return response.redirect(state as string);
-  return response.redirect("/?redirect=dashboard");
+  // if (state) return response.redirect(state as string);
+  // return response.redirect("/?redirect=dashboard");
 }
