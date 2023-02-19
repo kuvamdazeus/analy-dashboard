@@ -1436,10 +1436,10 @@ ajv@^6.10.0, ajv@^6.12.4:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-analy@^0.2.5:
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/analy/-/analy-0.2.5.tgz#797b90e527b3fd724ed6a96fe02df130bf3065fc"
-  integrity sha512-cqL/h1zhuyy2/H9zJ4Tmb9nVdLddqIQuKUZfIrRlvnl7UbRASGJZH0+P/cA6uDrERkV5kjJT+3MHbL37/cabZQ==
+analy@^0.2.9:
+  version "0.2.9"
+  resolved "https://registry.yarnpkg.com/analy/-/analy-0.2.9.tgz#468b6d27c417acab8f45117e1ad61eaa5b91e029"
+  integrity sha512-7D7UEN/gMZ6Zhg9Y5csPjLaI/Wks/MADA5y4bSX5ncUjm3g3ZoPhfZDYyMDV7/P0YzgRAP1VXHTBOLR+Y0k1kw==
   dependencies:
     crypto-js "^4.1.1"
     uuid "^9.0.0"
