@@ -1,6 +1,7 @@
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
+import { createTRPCRouter, publicProcedure, t } from "../trpc";
 import { z } from "zod";
 import { Duration, durationSchema } from "@/types";
+import { TRPCError } from "@trpc/server";
 
 const getGte = (duration: Duration) => {
   switch (duration) {
@@ -21,8 +22,25 @@ const getGte = (duration: Duration) => {
   }
 };
 
+const dashboardProcedure = publicProcedure
+  .input(
+    z.object({ projectId: z.string(), duration: z.optional(durationSchema) })
+  )
+  .use(async ({ ctx, next, input }) => {
+    const project = await ctx.prisma.project.findUniqueOrThrow({
+      where: { id: input.projectId },
+      include: { user: true },
+    });
+
+    if (project.user.id !== ctx.userId && !project.is_public) {
+      throw new TRPCError({ code: "UNAUTHORIZED" });
+    }
+
+    return next();
+  });
+
 export const dashboardRouter = createTRPCRouter({
-  getSummaryData: protectedProcedure
+  getSummaryData: dashboardProcedure
     .input(
       z.object({
         projectId: z.string(),
@@ -104,7 +122,7 @@ export const dashboardRouter = createTRPCRouter({
         avgSessionsDuration,
       };
     }),
-  getPagesSummaryData: protectedProcedure
+  getPagesSummaryData: dashboardProcedure
     .input(
       z.object({
         projectId: z.string(),
@@ -127,7 +145,7 @@ export const dashboardRouter = createTRPCRouter({
 
       return pagesSummaryData;
     }),
-  getReferrerData: protectedProcedure
+  getReferrerData: dashboardProcedure
     .input(
       z.object({
         projectId: z.string(),
@@ -153,7 +171,7 @@ export const dashboardRouter = createTRPCRouter({
 
       return referrerData;
     }),
-  getCountryData: protectedProcedure
+  getCountryData: dashboardProcedure
     .input(
       z.object({
         projectId: z.string(),
@@ -179,7 +197,7 @@ export const dashboardRouter = createTRPCRouter({
 
       return countryData;
     }),
-  getRealtimeData: protectedProcedure
+  getRealtimeData: dashboardProcedure
     .input(
       z.object({
         projectId: z.string(),
@@ -204,7 +222,7 @@ export const dashboardRouter = createTRPCRouter({
 
       return realtimeData;
     }),
-  getChartData: protectedProcedure
+  getChartData: dashboardProcedure
     .input(
       z.object({
         projectId: z.string(),
@@ -294,5 +312,19 @@ export const dashboardRouter = createTRPCRouter({
       }));
 
       return { pageViewsChartData, uniqueVisitsChartData, sessionChartData };
+    }),
+  makeProjectPublic: dashboardProcedure
+    .input(z.object({ projectId: z.string(), isPublic: z.boolean() }))
+    .mutation(async ({ ctx, input: { projectId, isPublic } }) => {
+      await ctx.prisma.project.update({
+        where: {
+          id: projectId,
+        },
+        data: {
+          is_public: isPublic,
+        },
+      });
+
+      return null;
     }),
 });

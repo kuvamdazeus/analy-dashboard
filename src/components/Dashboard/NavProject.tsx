@@ -11,6 +11,8 @@ export default function NavProject() {
     refetchOnWindowFocus: false,
   });
 
+  const projectMutation = api.dashboard.makeProjectPublic.useMutation();
+
   const currentProject = user.data?.projects.find(
     (project) => project.id === location.pathname.split("/").at(-1)
   );
@@ -22,7 +24,14 @@ export default function NavProject() {
 
   const isUnsafe = !user.data?.id;
 
-  const makeProjectPublic = () => {};
+  const makeProjectPublic = () => {
+    projectMutation.mutate({
+      projectId: currentProject?.id || "",
+      isPublic: !isPublic,
+    });
+
+    setIsPublic(!isPublic);
+  };
 
   return (
     <div className="flex items-center">

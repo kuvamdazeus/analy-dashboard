@@ -1,5 +1,6 @@
 import { GITHUB_OAUTH_URI } from "@/constants";
 import { api } from "@/utils/api";
+import { Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import NavProject from "./NavProject";
 
@@ -42,14 +43,16 @@ export default function Navbar() {
         )}
 
         {!user.data?.id && (
-          <button
-            className="w-24 bg-purple-500 font-bold text-white"
+          <Button
+            bg="purple.500"
+            w="24"
+            className="font-bold text-white"
             onClick={() =>
               (window.location.href = GITHUB_OAUTH_URI(window.location.href))
             }
           >
             Sign in
-          </button>
+          </Button>
         )}
 
         {/* <div
