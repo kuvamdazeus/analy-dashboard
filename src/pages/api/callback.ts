@@ -47,12 +47,12 @@ export default async function handler(
         avatar_url,
       },
     });
+    userCookie.set(id, response);
+
+    if (state) return response.redirect(state as string);
+    return response.redirect("/?redirect=dashboard");
   } catch (err) {
-    return response.send(err);
+    console.log(err);
+    return response.send(JSON.stringify(err, null, 2));
   }
-
-  // userCookie.set(id, response);
-
-  // if (state) return response.redirect(state as string);
-  // return response.redirect("/?redirect=dashboard");
 }
