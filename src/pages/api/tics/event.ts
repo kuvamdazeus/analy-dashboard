@@ -6,6 +6,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  // set CORS headers
+  res.setHeader("Access-Control-Allow-Origin", "*");
+
   const { session, event } = req.body;
 
   if (!session || !event || !session.project_key)
