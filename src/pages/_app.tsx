@@ -11,7 +11,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       <div
         id="analy-config"
         // analy-base-url="http://localhost:3000"
-        analy-key="e81a076aaae3e382a0ead009dd3d84bbf8ec8cf0846d36d80973c106311e9bf7"
+        analy-key={process.env.NEXT_PUBLIC_ANALY_KEY}
       />
 
       <Component {...pageProps} />
