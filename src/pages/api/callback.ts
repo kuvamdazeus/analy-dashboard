@@ -51,8 +51,8 @@ export default async function handler(
 
     if (state) return response.redirect(state as string);
     return response.redirect("/?redirect=dashboard");
-  } catch (err) {
+  } catch (err: any) {
     console.log(err);
-    return response.send(JSON.stringify(err, null, 2));
+    return response.send(err.message);
   }
 }
