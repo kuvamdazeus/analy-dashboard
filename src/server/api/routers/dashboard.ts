@@ -1,5 +1,6 @@
-import { createTRPCRouter, publicProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { z } from "zod";
+import { SHA256 } from "crypto-js";
 import { Duration, durationSchema } from "@/types";
 import { TRPCError } from "@trpc/server";
 
@@ -326,5 +327,19 @@ export const dashboardRouter = createTRPCRouter({
       });
 
       return null;
+    }),
+  createProject: protectedProcedure
+    .input(z.object({ name: z.string(), url: z.string() }))
+    .mutation(async ({ ctx, input: { name, url } }) => {
+      const { id: projectId } = await ctx.prisma.project.create({
+        data: {
+          name,
+          url,
+          key: SHA256((Date.now() + Math.random()).toString()).toString(),
+          user_id: ctx.userId as string,
+        },
+      });
+
+      return projectId;
     }),
 });

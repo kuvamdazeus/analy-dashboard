@@ -10,8 +10,8 @@ const MyApp: AppType = ({ Component, pageProps }) => {
     <ChakraProvider>
       <div
         id="analy-config"
-        analy-base-url="http://localhost:3000"
-        analy-key="bdeb62c0be50aa23365688ebcfb67af23dce03a03b84a0b81391097089a8aec4"
+        // analy-base-url="http://localhost:3000"
+        analy-key="e81a076aaae3e382a0ead009dd3d84bbf8ec8cf0846d36d80973c106311e9bf7"
       />
 
       <Component {...pageProps} />

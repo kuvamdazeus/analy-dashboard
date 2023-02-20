@@ -1,3 +1,4 @@
+import CreateProject from "@/components/Dashboard/CreateProject";
 import Navbar from "@/components/Dashboard/Navbar";
 import Project from "@/components/Dashboard/Project";
 import { api } from "@/utils/api";
@@ -20,7 +21,7 @@ export default function Dashboard() {
 
         <div className="my-5 h-px w-full bg-gray-200" />
 
-        {/* <CreateProject /> */}
+        <CreateProject />
       </section>
     </>
   );

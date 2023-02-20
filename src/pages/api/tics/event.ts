@@ -17,17 +17,22 @@ export default async function handler(
     if (path) parsedUrl += isDynamicPath(path) ? "/[...]" : `/${path}`;
   });
 
-  await prisma.session.upsert({
-    where: {
-      id: session.id,
-    },
-    create: session,
-    update: {},
-  });
+  try {
+    await prisma.session.upsert({
+      where: {
+        id: session.id,
+      },
+      create: session,
+      update: {},
+    });
 
-  await prisma.event.create({
-    data: { ...event, parsed_url: parsedUrl },
-  });
+    await prisma.event.create({
+      data: { ...event, parsed_url: parsedUrl },
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
 
   return res.status(200).json({ message: "OK" });
 }
