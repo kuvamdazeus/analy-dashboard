@@ -14,7 +14,7 @@ export default function Index() {
   }, [isRedirect]);
 
   return (
-    <div>
+    <div className="">
       <p className="text-3xl">Landing page</p>
 
       <a href={GITHUB_OAUTH_URI()} className="m-5 border border-red-500">

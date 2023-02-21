@@ -1,9 +1,10 @@
 import { type AppType } from "next/app";
-import { api } from "../utils/api";
 import "analy";
+import { ChakraProvider } from "@chakra-ui/react";
+import AppWrapper from "@/components/AppWrapper";
+import { api } from "../utils/api";
 
 import "../styles/globals.css";
-import { ChakraProvider } from "@chakra-ui/react";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
@@ -14,7 +15,9 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         analy-key={process.env.NEXT_PUBLIC_ANALY_KEY}
       />
 
-      <Component {...pageProps} />
+      <AppWrapper>
+        <Component {...pageProps} />
+      </AppWrapper>
     </ChakraProvider>
   );
 };

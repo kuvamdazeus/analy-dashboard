@@ -1,10 +1,12 @@
 import { GITHUB_OAUTH_URI } from "@/constants";
 import { api } from "@/utils/api";
-import { Button } from "@chakra-ui/react";
+import { Button, useColorMode } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import { FiMoon, FiSun } from "react-icons/fi";
 import NavProject from "./NavProject";
 
 export default function Navbar() {
+  const { colorMode, toggleColorMode } = useColorMode();
   const router = useRouter();
   const user = api.user.getUser.useQuery(undefined, {
     refetchOnWindowFocus: false,
@@ -55,7 +57,7 @@ export default function Navbar() {
           </Button>
         )}
 
-        {/* <div
+        <div
           onClick={toggleColorMode}
           className="ml-3 cursor-pointer rounded-full bg-gray-50 p-2 text-xl transition-all duration-300 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700"
         >
@@ -64,7 +66,7 @@ export default function Navbar() {
           ) : (
             <FiMoon className="" />
           )}
-        </div> */}
+        </div>
       </div>
     </nav>
   );

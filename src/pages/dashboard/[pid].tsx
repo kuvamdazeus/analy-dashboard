@@ -10,7 +10,7 @@ export default function ProjectPage() {
     <>
       <Navbar />
 
-      <section className={`bg-gray-100 p-5 dark:bg-gray-900`}>
+      <section className={`bg-gray-100 p-5 dark:bg-gray-900 dark:text-white`}>
         <div className="mb-5 flex h-64 gap-5">
           <Summary />
 
