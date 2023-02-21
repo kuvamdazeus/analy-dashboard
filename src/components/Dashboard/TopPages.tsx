@@ -1,7 +1,7 @@
 import { api } from "@/utils/api";
 import { Box, Skeleton } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useMemo } from "react";
 
 export default function TopPages() {
   const router = useRouter();
@@ -14,6 +14,32 @@ export default function TopPages() {
     },
     { refetchOnWindowFocus: false }
   );
+
+  const correctedPageSummary = useMemo(() => {
+    if (!pageSummary.data) return [];
+
+    const pathnames = new Map<string, number>();
+
+    for (const pageData of pageSummary.data) {
+      const pathname = new URL(pageData.parsed_url).pathname;
+
+      if (pathnames.has(pathname)) {
+        pathnames.set(
+          pathname,
+          pathnames.get(pathname)! + pageData._count._all
+        );
+      } else {
+        pathnames.set(pathname, pageData._count._all);
+      }
+    }
+
+    return Array.from(pathnames.entries()).map(([pathname, count]) => ({
+      pathname,
+      _count: {
+        _all: count,
+      },
+    }));
+  }, [pageSummary.data]);
 
   const totalPageViews = pageSummary.data
     ? pageSummary.data.reduce((acc, pageData) => acc + pageData._count._all, 0)
@@ -38,10 +64,10 @@ export default function TopPages() {
 
       {!pageSummary.isLoading &&
         pageSummary.data &&
-        pageSummary.data
+        correctedPageSummary
           .sort((a, b) => b._count._all - a._count._all)
           .map((pageData) => {
-            const pathname = new URL(pageData.parsed_url).pathname;
+            const pathname = pageData.pathname;
             const count = pageData._count._all;
 
             return (
