@@ -17,9 +17,6 @@ export default function NavProject() {
     (project) => project.id === location.pathname.split("/").at(-1)
   );
 
-  const [isPublic, setIsPublic] = useState<boolean | undefined>(
-    currentProject?.is_public
-  );
   const [showCopiedText, setShowCopiedText] = useState(false);
 
   const isUnsafe = !user.data?.id;
@@ -27,10 +24,10 @@ export default function NavProject() {
   const makeProjectPublic = () => {
     projectMutation.mutate({
       projectId: currentProject?.id || "",
-      isPublic: !isPublic,
+      isPublic: !currentProject?.is_public,
     });
 
-    setIsPublic(!isPublic);
+    user.refetch();
   };
 
   return (
@@ -47,14 +44,16 @@ export default function NavProject() {
         ))}
       </select>
 
-      <Tooltip label={`Make ${isPublic ? "private" : "public"}`}>
+      <Tooltip
+        label={`Make ${currentProject?.is_public ? "private" : "public"}`}
+      >
         <Badge
           mx="2"
-          colorScheme={isPublic ? "green" : "red"}
+          colorScheme={currentProject?.is_public ? "green" : "red"}
           cursor="pointer"
           onClick={isUnsafe ? () => {} : makeProjectPublic}
         >
-          {isPublic ? "Public" : "Private"}
+          {currentProject?.is_public ? "Public" : "Private"}
         </Badge>
       </Tooltip>
 
