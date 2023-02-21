@@ -26,5 +26,14 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: '/api/:path*',
+  //       destination: 'https://api.example.com/:path*',
+  //     },
+  //   ]
+  // },
 };
 export default config;
