@@ -1,12 +1,10 @@
 import { api } from "@/utils/api";
-import { Box } from "@chakra-ui/react";
+import { Box, Skeleton } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 export default function TopPages() {
   const router = useRouter();
-  // const location = useLocation();
-  // const pageSummary = useFetcher<typeof getPagesSummaryData>();
 
   const projectId = router.asPath.split("/").at(-1) || "";
 
@@ -30,7 +28,16 @@ export default function TopPages() {
     >
       <p className="mb-5 text-xl font-bold">Top Pages</p>
 
-      {pageSummary.data &&
+      {pageSummary.isLoading && (
+        <div>
+          <Skeleton className="mb-2 h-7 w-5/6" />
+          <Skeleton className="mb-2 h-7 w-1/2" />
+          <Skeleton className="mb-2 h-7 w-1/3" />
+        </div>
+      )}
+
+      {!pageSummary.isLoading &&
+        pageSummary.data &&
         pageSummary.data
           .sort((a, b) => b._count._all - a._count._all)
           .map((pageData) => {
