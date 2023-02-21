@@ -1,14 +1,10 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { api } from "@/utils/api";
-import { Box } from "@chakra-ui/react";
+import { Box, Skeleton } from "@chakra-ui/react";
 
 export default function TopSources() {
   const router = useRouter();
-  // const location = useLocation();
-
-  // const countries = useFetcher<typeof getCountryData>();
-  // const referrers = useFetcher<typeof getReferrerData>();
 
   const projectId = router.asPath.split("/").at(-1) || "";
 
@@ -33,11 +29,6 @@ export default function TopSources() {
   const fetchBy = (mode: typeof fetchMode) => {
     setFetchMode(mode);
   };
-
-  // useEffect(() => {
-  //   countries.load(`${window.location.pathname}/data?type=country`);
-  //   referrers.load(`${window.location.pathname}/data?type=referrer`);
-  // }, [location]);
 
   let totalPageViews = 0;
 
@@ -87,47 +78,61 @@ export default function TopSources() {
         </div>
       </div>
 
-      {fetchMode === "referrers" &&
-        referrers.data &&
-        referrers.data
-          .sort((a, b) => b._count._all - a._count._all)
-          .map((source) => {
-            return (
-              <Box key={source.referrer} className="relative mb-1 p-2">
-                <Box
-                  style={{
-                    width: `${(source._count._all / totalPageViews) * 100}%`,
-                  }}
-                  className="absolute top-0 left-0 z-0 h-full bg-blue-100 dark:bg-blue-500"
-                />
+      {referrers.isLoading ? (
+        <div>
+          <Skeleton className="mb-2 h-7 w-5/6" />
+          <Skeleton className="mb-2 h-7 w-1/2" />
+          <Skeleton className="mb-2 h-7 w-1/3" />
+        </div>
+      ) : (
+        <>
+          {fetchMode === "referrers" &&
+            referrers.data &&
+            referrers.data
+              .sort((a, b) => b._count._all - a._count._all)
+              .map((source) => {
+                return (
+                  <Box key={source.referrer} className="relative mb-1 p-2">
+                    <Box
+                      style={{
+                        width: `${
+                          (source._count._all / totalPageViews) * 100
+                        }%`,
+                      }}
+                      className="absolute top-0 left-0 z-0 h-full bg-blue-100 dark:bg-blue-500"
+                    />
 
-                <p className="sticky text-xs font-light tracking-wide text-gray-700 dark:text-white">
-                  {source.referrer}
-                </p>
-              </Box>
-            );
-          })}
+                    <p className="sticky text-xs font-light tracking-wide text-gray-700 dark:text-white">
+                      {source.referrer}
+                    </p>
+                  </Box>
+                );
+              })}
 
-      {fetchMode === "countries" &&
-        countries.data &&
-        countries.data
-          .sort((a, b) => b._count._all - a._count._all)
-          .map((source) => {
-            return (
-              <Box key={source.country} className="relative mb-1 p-2">
-                <Box
-                  style={{
-                    width: `${(source._count._all / totalPageViews) * 100}%`,
-                  }}
-                  className="absolute top-0 left-0 z-0 h-full bg-blue-100 dark:bg-blue-500"
-                />
+          {fetchMode === "countries" &&
+            countries.data &&
+            countries.data
+              .sort((a, b) => b._count._all - a._count._all)
+              .map((source) => {
+                return (
+                  <Box key={source.country} className="relative mb-1 p-2">
+                    <Box
+                      style={{
+                        width: `${
+                          (source._count._all / totalPageViews) * 100
+                        }%`,
+                      }}
+                      className="absolute top-0 left-0 z-0 h-full bg-blue-100 dark:bg-blue-500"
+                    />
 
-                <p className="sticky text-xs font-light tracking-wide text-gray-700 dark:text-white">
-                  {source.country}
-                </p>
-              </Box>
-            );
-          })}
+                    <p className="sticky text-xs font-light tracking-wide text-gray-700 dark:text-white">
+                      {source.country}
+                    </p>
+                  </Box>
+                );
+              })}
+        </>
+      )}
     </Box>
   );
 }
