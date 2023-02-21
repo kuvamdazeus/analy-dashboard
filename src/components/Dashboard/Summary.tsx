@@ -1,7 +1,7 @@
 import { DURATIONS } from "@/constants";
 import { Duration } from "@/types";
 import { api } from "@/utils/api";
-import { Select } from "@chakra-ui/react";
+import { Select, Skeleton } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -20,17 +20,9 @@ export default function Summary() {
     { refetchOnWindowFocus: false }
   );
 
-  // const location = useLocation();
-  // const summary = useFetcher<typeof getSummaryData>();
-
   const fetchSummaryData = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     setDuration(e.target.value as Duration);
-    // summary.load(`${window.location.pathname}/data?type=summary&duration=${e.target.value}`);
   };
-
-  // useEffect(() => {
-  //   summary.load(`${window.location.pathname}/data?type=summary&duration=1d`);
-  // }, [location]);
 
   return (
     <div className="h-full w-1/2 rounded-lg border border-gray-100 bg-white p-3 dark:border-gray-700 dark:bg-gray-800">
@@ -53,57 +45,70 @@ export default function Summary() {
         </Select>
       </div>
 
-      <div className="mb-2 flex items-center justify-between">
-        <p className="text-sm font-bold tracking-wide text-gray-500 dark:text-gray-400">
-          UNIQUE VISITS
-        </p>
-
-        <div className="flex items-center justify-between rounded-sm bg-gray-200 p-1 text-xs font-bold text-gray-800 dark:bg-gray-100">
-          <p className="mr-3">
-            {summary.data && summary.data.uniquePageVisits}
-          </p>
-
-          <p>-</p>
+      {summary.isLoading ? (
+        <div>
+          <Skeleton height="20px" className="mb-3" />
+          <Skeleton height="20px" className="mb-3" />
+          <Skeleton height="20px" className="mb-3" />
+          <Skeleton height="20px" className="mb-3" />
         </div>
-      </div>
+      ) : (
+        <>
+          <div className="mb-2 flex items-center justify-between">
+            <p className="text-sm font-bold tracking-wide text-gray-500 dark:text-gray-400">
+              UNIQUE VISITS
+            </p>
 
-      <div className="mb-2 flex items-center justify-between">
-        <p className="text-sm font-bold tracking-wide text-gray-500 dark:text-gray-400">
-          PAGE VIEWS
-        </p>
+            <div className="flex items-center justify-between rounded-sm bg-gray-200 p-1 text-xs font-bold text-gray-800 dark:bg-gray-100">
+              <p className="mr-3">
+                {summary.data && summary.data.uniquePageVisits}
+              </p>
 
-        <div className="flex items-center justify-between rounded-sm bg-gray-200 p-1 text-xs font-bold text-gray-800 dark:bg-gray-100">
-          <p className="mr-3">{summary.data && summary.data.pageViews}</p>
+              <p>-</p>
+            </div>
+          </div>
 
-          <p>-</p>
-        </div>
-      </div>
+          <div className="mb-2 flex items-center justify-between">
+            <p className="text-sm font-bold tracking-wide text-gray-500 dark:text-gray-400">
+              PAGE VIEWS
+            </p>
 
-      <div className="mb-2 flex items-center justify-between">
-        <p className="text-sm font-bold tracking-wide text-gray-500 dark:text-gray-400">
-          SESSION COUNT
-        </p>
+            <div className="flex items-center justify-between rounded-sm bg-gray-200 p-1 text-xs font-bold text-gray-800 dark:bg-gray-100">
+              <p className="mr-3">{summary.data && summary.data.pageViews}</p>
 
-        <div className="flex items-center justify-between rounded-sm bg-gray-200 p-1 text-xs font-bold text-gray-800 dark:bg-gray-100">
-          <p className="mr-3">{summary.data && summary.data.sessionsCount}</p>
+              <p>-</p>
+            </div>
+          </div>
 
-          <p>-</p>
-        </div>
-      </div>
+          <div className="mb-2 flex items-center justify-between">
+            <p className="text-sm font-bold tracking-wide text-gray-500 dark:text-gray-400">
+              SESSION COUNT
+            </p>
 
-      <div className="mb-2 flex items-center justify-between">
-        <p className="text-sm font-bold tracking-wide text-gray-500 dark:text-gray-400">
-          AVG. SESSION TIME
-        </p>
+            <div className="flex items-center justify-between rounded-sm bg-gray-200 p-1 text-xs font-bold text-gray-800 dark:bg-gray-100">
+              <p className="mr-3">
+                {summary.data && summary.data.sessionsCount}
+              </p>
 
-        <div className="flex items-center justify-between rounded-sm bg-gray-200 p-1 text-xs font-bold text-gray-800 dark:bg-gray-100">
-          <p className="mr-3">
-            {summary.data && Math.round(summary.data.avgSessionsDuration)}s
-          </p>
+              <p>-</p>
+            </div>
+          </div>
 
-          <p>-</p>
-        </div>
-      </div>
+          <div className="mb-2 flex items-center justify-between">
+            <p className="text-sm font-bold tracking-wide text-gray-500 dark:text-gray-400">
+              AVG. SESSION TIME
+            </p>
+
+            <div className="flex items-center justify-between rounded-sm bg-gray-200 p-1 text-xs font-bold text-gray-800 dark:bg-gray-100">
+              <p className="mr-3">
+                {summary.data && Math.round(summary.data.avgSessionsDuration)}s
+              </p>
+
+              <p>-</p>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
