@@ -100,6 +100,8 @@ export default function DashboardChart() {
           text: "",
         },
         categories: getCategories(),
+        lineColor:
+          colorMode === "dark" ? "rgb(108, 119, 133)" : "rgb(237, 237, 237)",
       },
       yAxis: {
         title: {

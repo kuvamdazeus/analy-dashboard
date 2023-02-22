@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { Badge, Box } from "@chakra-ui/react";
+import { Badge, Box, useColorMode } from "@chakra-ui/react";
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts";
 import { api } from "@/utils/api";
@@ -7,6 +7,8 @@ import { useRouter } from "next/router";
 import { parseRealtimeData } from "@/utils/data";
 
 export default function RealtimeStats() {
+  const { colorMode } = useColorMode();
+
   const router = useRouter();
 
   const projectId =
@@ -18,6 +20,18 @@ export default function RealtimeStats() {
     const statsData = parseRealtimeData(stats.data || []);
 
     return {
+      chart: {
+        backgroundColor: colorMode === "dark" ? "rgb(31 41 55)" : "white",
+        plotBorderColor: "white",
+      },
+      colors: [
+        "#FD151B",
+        "#FFB30F",
+        "#8075FF",
+        "#6DD3CE",
+        "#BCE784",
+        "#348AA7",
+      ],
       title: {
         text: "",
       },
@@ -52,11 +66,15 @@ export default function RealtimeStats() {
       xAxis: {
         type: "category",
         categories: stats.data ? statsData.map(([label]) => label) : [],
+        lineColor:
+          colorMode === "dark" ? "rgb(108, 119, 133)" : "rgb(237, 237, 237)",
       },
       yAxis: {
         title: {
           text: "",
         },
+        gridLineColor:
+          colorMode === "dark" ? "rgb(54,66,82)" : "rgb(237, 237, 237)",
       },
     };
   }, [stats.data]);
