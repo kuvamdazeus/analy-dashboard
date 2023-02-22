@@ -77,7 +77,7 @@ export default function RealtimeStats() {
           colorMode === "dark" ? "rgb(54,66,82)" : "rgb(237, 237, 237)",
       },
     };
-  }, [stats.data]);
+  }, [stats.data, colorMode]);
 
   useEffect(() => {
     let interval: any = null;
