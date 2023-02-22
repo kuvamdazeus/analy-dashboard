@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/router";
-import { Box, Select } from "@chakra-ui/react";
+import { Box, Select, useColorMode } from "@chakra-ui/react";
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts";
 import { DURATIONS } from "@/constants";
@@ -8,9 +8,11 @@ import { Duration } from "@/types";
 import { api } from "@/utils/api";
 
 export default function DashboardChart() {
+  const { colorMode } = useColorMode();
+
   const router = useRouter();
 
-  const [duration, setDuration] = useState<Duration>("1d");
+  const [duration, setDuration] = useState<Duration>("7d");
 
   const projectId = router.asPath.split("/").at(-1) || "";
 
@@ -57,6 +59,18 @@ export default function DashboardChart() {
 
   const options: Highcharts.Options = useMemo(
     () => ({
+      chart: {
+        backgroundColor: colorMode === "dark" ? "rgb(31 41 55)" : "white",
+        plotBorderColor: "white",
+      },
+      colors: [
+        "#FD151B",
+        "#FFB30F",
+        "#8075FF",
+        "#6DD3CE",
+        "#BCE784",
+        "#348AA7",
+      ],
       title: {
         text: "",
       },
@@ -79,7 +93,6 @@ export default function DashboardChart() {
           name: "Sessions",
         },
       ],
-
       xAxis: {
         type: "category",
         title: {
@@ -91,9 +104,11 @@ export default function DashboardChart() {
         title: {
           text: "",
         },
+        gridLineColor:
+          colorMode === "dark" ? "rgb(54,66,82)" : "rgb(237, 237, 237)",
       },
     }),
-    [chart.data]
+    [chart.data, colorMode]
   );
 
   const fetchChartData = (e: React.ChangeEvent<HTMLSelectElement>) => {

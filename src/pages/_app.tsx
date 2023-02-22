@@ -1,8 +1,8 @@
 import { type AppType } from "next/app";
-import "analy";
 import { ChakraProvider } from "@chakra-ui/react";
 import AppWrapper from "@/components/AppWrapper";
 import { api } from "../utils/api";
+import "analy";
 
 import "../styles/globals.css";
 
