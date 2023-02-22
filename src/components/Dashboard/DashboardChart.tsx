@@ -14,7 +14,8 @@ export default function DashboardChart() {
 
   const [duration, setDuration] = useState<Duration>("7d");
 
-  const projectId = router.asPath.split("/").at(-1) || "";
+  const projectId =
+    ((router.query.pid as string) || "").split("/").at(-1) || "";
 
   const chart = api.dashboard.getChartData.useQuery(
     {

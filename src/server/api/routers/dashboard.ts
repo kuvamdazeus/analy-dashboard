@@ -25,7 +25,10 @@ const getGte = (duration: Duration) => {
 
 const dashboardProcedure = publicProcedure
   .input(
-    z.object({ projectId: z.string(), duration: z.optional(durationSchema) })
+    z.object({
+      projectId: z.string().min(1),
+      duration: z.optional(durationSchema),
+    })
   )
   .use(async ({ ctx, next, input }) => {
     const project = await ctx.prisma.project.findUniqueOrThrow({

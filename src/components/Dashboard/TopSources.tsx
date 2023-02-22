@@ -6,7 +6,8 @@ import { Box, Skeleton } from "@chakra-ui/react";
 export default function TopSources() {
   const router = useRouter();
 
-  const projectId = router.asPath.split("/").at(-1) || "";
+  const projectId =
+    ((router.query.pid as string) || "").split("/").at(-1) || "";
 
   const countries = api.dashboard.getCountryData.useQuery(
     {

@@ -9,7 +9,8 @@ import { parseRealtimeData } from "@/utils/data";
 export default function RealtimeStats() {
   const router = useRouter();
 
-  const projectId = router.asPath.split("/").at(-1) || "";
+  const projectId =
+    ((router.query.pid as string) || "").split("/").at(-1) || "";
 
   const stats = api.dashboard.getRealtimeData.useQuery({ projectId });
 

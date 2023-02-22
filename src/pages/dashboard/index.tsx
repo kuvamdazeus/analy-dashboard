@@ -19,7 +19,7 @@ export default function Dashboard() {
           ))}
         </div>
 
-        <div className="my-5 h-px w-full bg-gray-200" />
+        <div className="my-5 h-px w-full bg-gray-200 dark:bg-gray-700" />
 
         <CreateProject />
       </section>

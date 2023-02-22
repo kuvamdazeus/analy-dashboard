@@ -10,7 +10,8 @@ export default function Summary() {
 
   const [duration, setDuration] = useState<Duration>("1d");
 
-  const projectId = router.asPath.split("/").at(-1) || "";
+  const projectId =
+    ((router.query.pid as string) || "").split("/").at(-1) || "";
 
   const summary = api.dashboard.getSummaryData.useQuery(
     {

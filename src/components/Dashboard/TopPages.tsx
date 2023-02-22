@@ -6,7 +6,8 @@ import { useMemo } from "react";
 export default function TopPages() {
   const router = useRouter();
 
-  const projectId = router.asPath.split("/").at(-1) || "";
+  const projectId =
+    ((router.query.pid as string) || "").split("/").at(-1) || "";
 
   const pageSummary = api.dashboard.getPagesSummaryData.useQuery(
     {
