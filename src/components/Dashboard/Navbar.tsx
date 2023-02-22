@@ -12,10 +12,10 @@ export default function Navbar() {
     refetchOnWindowFocus: false,
   });
 
-  const displayProjectName = /dashboard\/.+\-.+\-.+/.test(
-    (router.query.pid as string) || ""
-  );
+  const displayProjectName = /dashboard\/.+\-.+\-.+/.test(router.asPath);
   const projectId = ((router.query.pid as string) || "").split("/").at(-1);
+
+  console.log(router.query?.pid, projectId);
 
   return (
     <nav className="flex items-center justify-between border-b border-dashed border-gray-400 bg-white px-5 py-5 dark:border-gray-500 dark:bg-gray-900">
