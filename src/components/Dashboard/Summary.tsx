@@ -60,12 +60,10 @@ export default function Summary() {
               UNIQUE VISITS
             </p>
 
-            <div className="flex items-center justify-between rounded-sm bg-gray-200 p-1 text-xs font-bold text-gray-800 dark:bg-gray-100">
-              <p className="mr-3">
+            <div className="flex items-center justify-between rounded-sm bg-transparent p-1 text-xs font-bold text-gray-800 dark:text-white">
+              <p className="text-right">
                 {summary.data && summary.data.uniquePageVisits}
               </p>
-
-              <p>-</p>
             </div>
           </div>
 
@@ -74,10 +72,10 @@ export default function Summary() {
               PAGE VIEWS
             </p>
 
-            <div className="flex items-center justify-between rounded-sm bg-gray-200 p-1 text-xs font-bold text-gray-800 dark:bg-gray-100">
-              <p className="mr-3">{summary.data && summary.data.pageViews}</p>
-
-              <p>-</p>
+            <div className="flex items-center justify-between rounded-sm bg-transparent p-1 text-xs font-bold text-gray-800 dark:text-white">
+              <p className="text-right">
+                {summary.data && summary.data.pageViews}
+              </p>
             </div>
           </div>
 
@@ -86,12 +84,10 @@ export default function Summary() {
               SESSION COUNT
             </p>
 
-            <div className="flex items-center justify-between rounded-sm bg-gray-200 p-1 text-xs font-bold text-gray-800 dark:bg-gray-100">
-              <p className="mr-3">
+            <div className="flex items-center justify-between rounded-sm bg-transparent p-1 text-xs font-bold text-gray-800 dark:text-white">
+              <p className="text-right">
                 {summary.data && summary.data.sessionsCount}
               </p>
-
-              <p>-</p>
             </div>
           </div>
 
@@ -100,12 +96,10 @@ export default function Summary() {
               AVG. SESSION TIME
             </p>
 
-            <div className="flex items-center justify-between rounded-sm bg-gray-200 p-1 text-xs font-bold text-gray-800 dark:bg-gray-100">
-              <p className="mr-3">
+            <div className="flex items-center justify-between rounded-sm bg-transparent p-1 text-xs font-bold text-gray-800 dark:text-white">
+              <p className="text-right">
                 {summary.data && Math.round(summary.data.avgSessionsDuration)}s
               </p>
-
-              <p>-</p>
             </div>
           </div>
         </>
