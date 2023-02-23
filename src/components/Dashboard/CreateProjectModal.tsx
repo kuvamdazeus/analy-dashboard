@@ -41,9 +41,8 @@ export default function CreateProjectModal({
     onSuccess: (project) => {
       if (!project) return;
 
-      console.log(project);
+      user.refetch();
       setOpen(false);
-      // router.replace(`/dashboard/${project.id}`);
     },
   });
 

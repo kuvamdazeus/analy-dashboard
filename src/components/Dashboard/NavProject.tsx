@@ -12,7 +12,9 @@ export default function NavProject() {
     refetchOnWindowFocus: false,
   });
 
-  const projectMutation = api.dashboard.makeProjectPublic.useMutation();
+  const projectMutation = api.dashboard.makeProjectPublic.useMutation({
+    onSuccess: () => user.refetch(),
+  });
 
   const currentProject = user.data?.projects.find(
     (project) => project.id === location.pathname.split("/").at(-1)
@@ -28,8 +30,6 @@ export default function NavProject() {
       projectId: currentProject?.id || "",
       isPublic: !currentProject?.is_public,
     });
-
-    user.refetch();
   };
 
   return (
