@@ -1,9 +1,25 @@
-import DashboardChart from "@/components/Dashboard/DashboardChart";
-import Navbar from "@/components/Dashboard/Navbar";
-import RealtimeStats from "@/components/Dashboard/RealtimeStats";
-import Summary from "@/components/Dashboard/Summary";
-import TopPages from "@/components/Dashboard/TopPages";
-import TopSources from "@/components/Dashboard/TopSources";
+import dynamic from "next/dynamic";
+
+const Navbar = dynamic(() => import("@/components/Dashboard/Navbar"), {
+  ssr: false,
+});
+const Summary = dynamic(() => import("@/components/Dashboard/Summary"), {
+  ssr: false,
+});
+const TopPages = dynamic(() => import("@/components/Dashboard/TopPages"), {
+  ssr: false,
+});
+const TopSources = dynamic(() => import("@/components/Dashboard/TopSources"), {
+  ssr: false,
+});
+const DashboardChart = dynamic(
+  () => import("@/components/Dashboard/DashboardChart"),
+  { ssr: false }
+);
+const RealtimeStats = dynamic(
+  () => import("@/components/Dashboard/RealtimeStats"),
+  { ssr: false }
+);
 
 export default function ProjectPage() {
   return (

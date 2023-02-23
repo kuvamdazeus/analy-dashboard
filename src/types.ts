@@ -9,6 +9,7 @@ export const durationSchema = z.enum([
   "5y",
   "all",
 ]);
+
 export const requestDatatypeSchema = z.enum([
   "referrer",
   "country",
@@ -20,3 +21,8 @@ export const requestDatatypeSchema = z.enum([
 
 export type Duration = z.infer<typeof durationSchema>;
 export type RequestDataType = z.infer<typeof requestDatatypeSchema>;
+export type RedisKey = `${string}:${
+  | "summary"
+  | "pages"
+  | "chart"
+  | "realtime"}`;

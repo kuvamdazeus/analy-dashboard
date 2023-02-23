@@ -1,6 +1,7 @@
 import { DURATIONS } from "@/constants";
 import { Duration } from "@/types";
 import { api } from "@/utils/api";
+import { getJsonStorageData } from "@/utils/misc";
 import { Select, Skeleton } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -18,12 +19,23 @@ export default function Summary() {
       projectId,
       duration,
     },
-    { refetchOnWindowFocus: false }
+    {
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => {
+        localStorage.setItem("summary_cache", JSON.stringify(data));
+      },
+    }
   );
 
   const fetchSummaryData = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     setDuration(e.target.value as Duration);
   };
+
+  const storageSummaryData = getJsonStorageData(
+    "summary_cache"
+  ) as typeof summary.data;
+  const isLoading = summary.isLoading && !storageSummaryData;
+  const summaryData = summary.data || storageSummaryData;
 
   return (
     <div className="h-full w-1/2 rounded-lg border border-gray-100 bg-white p-3 dark:border-gray-700 dark:bg-gray-800">
@@ -46,7 +58,7 @@ export default function Summary() {
         </Select>
       </div>
 
-      {summary.isLoading ? (
+      {isLoading ? (
         <div>
           <Skeleton height="20px" className="mb-3" />
           <Skeleton height="20px" className="mb-3" />
@@ -62,7 +74,7 @@ export default function Summary() {
 
             <div className="flex items-center justify-between rounded-sm bg-transparent p-1 text-xs font-bold text-gray-800 dark:text-white">
               <p className="text-right">
-                {summary.data && summary.data.uniquePageVisits}
+                {summaryData && summaryData.uniquePageVisits}
               </p>
             </div>
           </div>
@@ -74,7 +86,7 @@ export default function Summary() {
 
             <div className="flex items-center justify-between rounded-sm bg-transparent p-1 text-xs font-bold text-gray-800 dark:text-white">
               <p className="text-right">
-                {summary.data && summary.data.pageViews}
+                {summaryData && summaryData.pageViews}
               </p>
             </div>
           </div>
@@ -86,7 +98,7 @@ export default function Summary() {
 
             <div className="flex items-center justify-between rounded-sm bg-transparent p-1 text-xs font-bold text-gray-800 dark:text-white">
               <p className="text-right">
-                {summary.data && summary.data.sessionsCount}
+                {summaryData && summaryData.sessionsCount}
               </p>
             </div>
           </div>
@@ -98,7 +110,7 @@ export default function Summary() {
 
             <div className="flex items-center justify-between rounded-sm bg-transparent p-1 text-xs font-bold text-gray-800 dark:text-white">
               <p className="text-right">
-                {summary.data && Math.round(summary.data.avgSessionsDuration)}s
+                {summaryData && Math.round(summaryData.avgSessionsDuration)}s
               </p>
             </div>
           </div>

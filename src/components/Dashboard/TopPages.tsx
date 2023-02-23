@@ -1,4 +1,5 @@
 import { api } from "@/utils/api";
+import { getJsonStorageData } from "@/utils/misc";
 import { Box, Skeleton } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
@@ -13,15 +14,30 @@ export default function TopPages() {
     {
       projectId,
     },
-    { refetchOnWindowFocus: false }
+    {
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => {
+        localStorage.setItem("pages_cache", JSON.stringify(data));
+      },
+    }
   );
 
+  const storagePageSummaryData = getJsonStorageData(
+    "pages_cache"
+  ) as typeof pageSummary.data;
+  const isLoading = pageSummary.isLoading && !storagePageSummaryData;
+  const pageSummaryData = pageSummary.data || storagePageSummaryData;
+
+  const totalPageViews = pageSummaryData
+    ? pageSummaryData.reduce((acc, pageData) => acc + pageData._count._all, 0)
+    : 0;
+
   const correctedPageSummary = useMemo(() => {
-    if (!pageSummary.data) return [];
+    if (!pageSummaryData) return [];
 
     const pathnames = new Map<string, number>();
 
-    for (const pageData of pageSummary.data) {
+    for (const pageData of pageSummaryData) {
       const pathname = new URL(pageData.parsed_url).pathname;
 
       if (pathnames.has(pathname)) {
@@ -40,11 +56,7 @@ export default function TopPages() {
         _all: count,
       },
     }));
-  }, [pageSummary.data]);
-
-  const totalPageViews = pageSummary.data
-    ? pageSummary.data.reduce((acc, pageData) => acc + pageData._count._all, 0)
-    : 0;
+  }, [pageSummaryData]);
 
   return (
     <Box
@@ -55,7 +67,7 @@ export default function TopPages() {
     >
       <p className="mb-5 text-xl font-bold">Top Pages</p>
 
-      {pageSummary.isLoading && (
+      {isLoading && (
         <div>
           <Skeleton className="mb-2 h-7 w-5/6" />
           <Skeleton className="mb-2 h-7 w-1/2" />
@@ -63,8 +75,8 @@ export default function TopPages() {
         </div>
       )}
 
-      {!pageSummary.isLoading &&
-        pageSummary.data &&
+      {!isLoading &&
+        pageSummaryData &&
         correctedPageSummary
           .sort((a, b) => b._count._all - a._count._all)
           .map((pageData) => {

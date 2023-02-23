@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { api } from "@/utils/api";
 import { Box, Skeleton } from "@chakra-ui/react";
+import { getJsonStorageData } from "@/utils/misc";
 
 export default function TopSources() {
   const router = useRouter();
@@ -13,15 +14,28 @@ export default function TopSources() {
     {
       projectId,
     },
-    { refetchOnWindowFocus: false }
+    {
+      refetchOnWindowFocus: false,
+    }
   );
 
   const referrers = api.dashboard.getReferrerData.useQuery(
     {
       projectId,
     },
-    { refetchOnWindowFocus: false }
+    {
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => {
+        localStorage.setItem("referrers_cache", JSON.stringify(data));
+      },
+    }
   );
+
+  const storageReferrersData = getJsonStorageData(
+    "referrers_cache"
+  ) as typeof referrers.data;
+  const isLoading = referrers.isLoading && !storageReferrersData;
+  const referrersData = referrers.data || storageReferrersData;
 
   const [fetchMode, setFetchMode] = useState<"referrers" | "countries">(
     "referrers"
@@ -33,8 +47,8 @@ export default function TopSources() {
 
   let totalPageViews = 0;
 
-  if (fetchMode === "referrers" && referrers.data) {
-    totalPageViews = referrers.data.reduce(
+  if (fetchMode === "referrers" && referrersData) {
+    totalPageViews = referrersData.reduce(
       (acc, referrerData) => acc + referrerData._count._all,
       0
     );
@@ -79,7 +93,7 @@ export default function TopSources() {
         </div>
       </div>
 
-      {referrers.isLoading ? (
+      {isLoading ? (
         <div>
           <Skeleton className="mb-2 h-7 w-5/6" />
           <Skeleton className="mb-2 h-7 w-1/2" />
@@ -88,8 +102,8 @@ export default function TopSources() {
       ) : (
         <>
           {fetchMode === "referrers" &&
-            referrers.data &&
-            referrers.data
+            referrersData &&
+            referrersData
               .sort((a, b) => b._count._all - a._count._all)
               .map((source) => {
                 return (
