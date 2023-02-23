@@ -23,7 +23,7 @@ const getGte = (duration: Duration) => {
   }
 };
 
-const dashboardProcedure = publicProcedure
+const dashboardReadProcedure = publicProcedure
   .input(
     z.object({
       projectId: z.string().min(1),
@@ -44,7 +44,7 @@ const dashboardProcedure = publicProcedure
   });
 
 export const dashboardRouter = createTRPCRouter({
-  getSummaryData: dashboardProcedure
+  getSummaryData: dashboardReadProcedure
     .input(
       z.object({
         projectId: z.string(),
@@ -126,7 +126,7 @@ export const dashboardRouter = createTRPCRouter({
         avgSessionsDuration,
       };
     }),
-  getPagesSummaryData: dashboardProcedure
+  getPagesSummaryData: dashboardReadProcedure
     .input(
       z.object({
         projectId: z.string(),
@@ -149,7 +149,7 @@ export const dashboardRouter = createTRPCRouter({
 
       return pagesSummaryData;
     }),
-  getReferrerData: dashboardProcedure
+  getReferrerData: dashboardReadProcedure
     .input(
       z.object({
         projectId: z.string(),
@@ -175,7 +175,7 @@ export const dashboardRouter = createTRPCRouter({
 
       return referrerData;
     }),
-  getCountryData: dashboardProcedure
+  getCountryData: dashboardReadProcedure
     .input(
       z.object({
         projectId: z.string(),
@@ -201,7 +201,7 @@ export const dashboardRouter = createTRPCRouter({
 
       return countryData;
     }),
-  getRealtimeData: dashboardProcedure
+  getRealtimeData: dashboardReadProcedure
     .input(
       z.object({
         projectId: z.string(),
@@ -226,7 +226,7 @@ export const dashboardRouter = createTRPCRouter({
 
       return realtimeData;
     }),
-  getChartData: dashboardProcedure
+  getChartData: dashboardReadProcedure
     .input(
       z.object({
         projectId: z.string(),
@@ -317,7 +317,7 @@ export const dashboardRouter = createTRPCRouter({
 
       return { pageViewsChartData, uniqueVisitsChartData, sessionChartData };
     }),
-  makeProjectPublic: dashboardProcedure
+  makeProjectPublic: dashboardReadProcedure
     .input(z.object({ projectId: z.string(), isPublic: z.boolean() }))
     .mutation(async ({ ctx, input: { projectId, isPublic } }) => {
       await ctx.prisma.project.update({
@@ -344,5 +344,42 @@ export const dashboardRouter = createTRPCRouter({
       });
 
       return projectId;
+    }),
+  updateProject: protectedProcedure
+    .input(
+      z.object({
+        projectId: z.string().min(1),
+        name: z.string().min(1),
+        url: z.string().min(1),
+      })
+    )
+    .mutation(async ({ ctx, input: { projectId, name, url } }) => {
+      const { projects } = await ctx.prisma.user.update({
+        where: {
+          id: ctx.userId as string,
+        },
+        select: {
+          projects: {
+            where: {
+              id: projectId,
+            },
+          },
+        },
+        data: {
+          projects: {
+            update: {
+              where: {
+                id: projectId,
+              },
+              data: {
+                name,
+                url,
+              },
+            },
+          },
+        },
+      });
+
+      return projects.pop();
     }),
 });

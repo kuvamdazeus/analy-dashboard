@@ -16,23 +16,67 @@ import { FiBox, FiGlobe } from "react-icons/fi";
 interface Props {
   open: boolean;
   setOpen: (open: boolean) => void;
+  isEdit?: boolean;
 }
 
-export default function CreateProjectModal({ open, setOpen }: Props) {
+export default function CreateProjectModal({
+  open,
+  setOpen,
+  isEdit = false,
+}: Props) {
   const router = useRouter();
+
+  const user = api.user.getUser.useQuery(undefined, {
+    refetchOnWindowFocus: false,
+  });
 
   const createProjectMutation = api.dashboard.createProject.useMutation({
     onSuccess: (projectId) => {
       setOpen(false);
-      router.push(`/dashboard/${projectId}`);
+      router.replace(`/dashboard/${projectId}`);
     },
   });
 
-  const [name, setName] = useState("");
-  const [url, setUrl] = useState("");
+  const updateProjectMutation = api.dashboard.updateProject.useMutation({
+    onSuccess: (project) => {
+      if (!project) return;
 
-  const createProject = () => {
-    createProjectMutation.mutate({ name, url });
+      console.log(project);
+      setOpen(false);
+      // router.replace(`/dashboard/${project.id}`);
+    },
+  });
+
+  const currentProject = user.data?.projects.find(
+    (project) => project.id === location.pathname.split("/").at(-1)
+  );
+
+  const [name, setName] = useState(
+    isEdit && currentProject ? currentProject.name : ""
+  );
+
+  const [url, setUrl] = useState(
+    isEdit && currentProject ? currentProject.url : ""
+  );
+
+  const submit = () => {
+    if (!currentProject) return;
+
+    let parsedUrl = url.trim();
+
+    if (!url.startsWith("https://") && !url.startsWith("http://")) {
+      parsedUrl = `https://${url}`;
+    }
+
+    if (!isEdit) {
+      createProjectMutation.mutate({ name, url: parsedUrl });
+    } else {
+      updateProjectMutation.mutate({
+        projectId: currentProject.id,
+        name,
+        url: parsedUrl,
+      });
+    }
   };
 
   return (
@@ -42,7 +86,7 @@ export default function CreateProjectModal({ open, setOpen }: Props) {
       <ModalContent p="5">
         <Box>
           <p className="mb-7 text-xl font-semibold italic">
-            Create a New Project
+            {isEdit ? "Edit Project" : "Create a New Project"}
           </p>
 
           <InputGroup>
@@ -51,8 +95,8 @@ export default function CreateProjectModal({ open, setOpen }: Props) {
             </InputLeftElement>
 
             <Input
+              value={name}
               onChange={(e) => setName(e.target.value)}
-              isRequired
               placeholder="Twitter Inc."
               autoFocus
             />
@@ -64,15 +108,15 @@ export default function CreateProjectModal({ open, setOpen }: Props) {
             </InputLeftElement>
 
             <Input
+              value={url}
               onChange={(e) => setUrl(e.target.value)}
-              isRequired
               placeholder="twitter.com"
             />
           </InputGroup>
 
           <center>
             <Button
-              onClick={createProject}
+              onClick={submit}
               type="submit"
               w="full"
               bg="green.400"
@@ -80,7 +124,7 @@ export default function CreateProjectModal({ open, setOpen }: Props) {
               mt="7"
               disabled={createProjectMutation.isLoading}
             >
-              Create
+              {isEdit ? "Save" : "Create"}
             </Button>
           </center>
         </Box>
