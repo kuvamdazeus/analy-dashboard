@@ -17,13 +17,13 @@ export default function TopPages() {
     {
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
-        localStorage.setItem("pages_cache", JSON.stringify(data));
+        localStorage.setItem(`${projectId}_pages_cache`, JSON.stringify(data));
       },
     }
   );
 
   const storagePageSummaryData = getJsonStorageData(
-    "pages_cache"
+    `${projectId}_pages_cache`
   ) as typeof pageSummary.data;
   const isLoading = pageSummary.isLoading && !storagePageSummaryData;
   const pageSummaryData = pageSummary.data || storagePageSummaryData;

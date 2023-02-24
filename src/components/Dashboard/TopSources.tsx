@@ -26,13 +26,16 @@ export default function TopSources() {
     {
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
-        localStorage.setItem("referrers_cache", JSON.stringify(data));
+        localStorage.setItem(
+          `${projectId}_referrers_cache`,
+          JSON.stringify(data)
+        );
       },
     }
   );
 
   const storageReferrersData = getJsonStorageData(
-    "referrers_cache"
+    `${projectId}_referrers_cache`
   ) as typeof referrers.data;
   const isLoading = referrers.isLoading && !storageReferrersData;
   const referrersData = referrers.data || storageReferrersData;

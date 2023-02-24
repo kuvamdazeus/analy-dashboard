@@ -22,7 +22,10 @@ export default function Summary() {
     {
       refetchOnWindowFocus: false,
       onSuccess: (data) => {
-        localStorage.setItem("summary_cache", JSON.stringify(data));
+        localStorage.setItem(
+          `${projectId}_summary_cache`,
+          JSON.stringify(data)
+        );
       },
     }
   );
@@ -32,7 +35,7 @@ export default function Summary() {
   };
 
   const storageSummaryData = getJsonStorageData(
-    "summary_cache"
+    `${projectId}_summary_cache`
   ) as typeof summary.data;
   const isLoading = summary.isLoading && !storageSummaryData;
   const summaryData = summary.data || storageSummaryData;
