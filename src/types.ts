@@ -19,8 +19,15 @@ export const requestDatatypeSchema = z.enum([
   "realtime",
 ]);
 
+export const storageUserSchema = z.object({
+  username: z.string(),
+  name: z.string(),
+  avatar_url: z.string(),
+});
+
 export type Duration = z.infer<typeof durationSchema>;
 export type RequestDataType = z.infer<typeof requestDatatypeSchema>;
+export type StorageUser = z.infer<typeof storageUserSchema>;
 export type RedisKey = `${string}:${
   | "summary"
   | "pages"
