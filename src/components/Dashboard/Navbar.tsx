@@ -32,8 +32,6 @@ export default function Navbar() {
     | undefined;
   const userData = user.data || storageUser;
 
-  console.log(localStorage.getItem("user_cache"));
-
   return (
     <nav className="flex items-center justify-between border-b border-dashed border-gray-400 bg-white px-5 py-5 dark:border-gray-500 dark:bg-gray-900">
       {displayProjectName &&
