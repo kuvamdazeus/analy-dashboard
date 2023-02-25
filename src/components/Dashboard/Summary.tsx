@@ -27,6 +27,11 @@ export default function Summary() {
           JSON.stringify(data)
         );
       },
+      onError: (err) => {
+        if (err.data?.httpStatus === 401) {
+          router.replace("/");
+        }
+      },
     }
   );
 

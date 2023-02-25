@@ -39,7 +39,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
   return {
     props: {
-      loggedIn: userId,
+      loggedIn: userId || null, // apparently undefined cant be serialized to JSON, but null can be, FUCK JS!
     },
   };
 };

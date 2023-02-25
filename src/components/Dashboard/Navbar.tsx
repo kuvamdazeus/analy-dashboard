@@ -2,7 +2,7 @@ import { GITHUB_OAUTH_URI } from "@/constants";
 import { StorageUser } from "@/types";
 import { api } from "@/utils/api";
 import { getJsonStorageData } from "@/utils/misc";
-import { Button, useColorMode } from "@chakra-ui/react";
+import { Button, Skeleton, useColorMode } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FiMoon, FiSun } from "react-icons/fi";
 import NavProject from "./NavProject";
@@ -34,6 +34,8 @@ export default function Navbar() {
 
   return (
     <nav className="flex items-center justify-between border-b border-dashed border-gray-400 bg-white px-5 py-5 dark:border-gray-500 dark:bg-gray-900">
+      {user.isLoading && <Skeleton className="h-8 w-64" />}
+
       {displayProjectName &&
       user.data?.projects.filter((project) => project.id === projectId)
         .length ? (
@@ -61,7 +63,7 @@ export default function Navbar() {
           </div>
         )}
 
-        {!userData && (
+        {!userData && !user.isLoading && (
           <Button
             bg="purple.500"
             w="24"
