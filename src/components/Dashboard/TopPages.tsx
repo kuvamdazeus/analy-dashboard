@@ -58,6 +58,10 @@ export default function TopPages() {
     }));
   }, [pageSummaryData]);
 
+  const isEmpty = pageSummaryData
+    ? Object.values(pageSummaryData).every((value) => !value)
+    : false;
+
   return (
     <Box
       border="1px"
@@ -66,6 +70,12 @@ export default function TopPages() {
       className="h-full w-1/2 overflow-y-auto rounded-lg bg-white p-3 dark:bg-gray-800"
     >
       <p className="mb-5 text-xl font-bold">Top Pages</p>
+
+      {isEmpty && (
+        <p className="mt-16 text-center text-lg font-light text-gray-500">
+          No data available
+        </p>
+      )}
 
       {isLoading && (
         <div>

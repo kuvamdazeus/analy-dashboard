@@ -96,13 +96,15 @@ export default function TopSources() {
         </div>
       </div>
 
-      {isLoading ? (
+      {isLoading && (
         <div>
           <Skeleton className="mb-2 h-7 w-5/6" />
           <Skeleton className="mb-2 h-7 w-1/2" />
           <Skeleton className="mb-2 h-7 w-1/3" />
         </div>
-      ) : (
+      )}
+
+      {!isLoading && (
         <>
           {fetchMode === "referrers" &&
             referrersData &&
@@ -127,6 +129,14 @@ export default function TopSources() {
                 );
               })}
 
+          {fetchMode === "referrers" &&
+            referrersData &&
+            referrersData.length === 0 && (
+              <p className="mt-16 text-center text-lg font-light text-gray-500">
+                No data available
+              </p>
+            )}
+
           {fetchMode === "countries" &&
             countries.data &&
             countries.data
@@ -149,6 +159,14 @@ export default function TopSources() {
                   </Box>
                 );
               })}
+
+          {fetchMode === "countries" &&
+            countries.data &&
+            countries.data.length === 0 && (
+              <p className="mt-16 text-center text-lg font-light text-gray-500">
+                No data available
+              </p>
+            )}
         </>
       )}
     </Box>

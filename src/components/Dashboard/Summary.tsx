@@ -45,6 +45,10 @@ export default function Summary() {
   const isLoading = summary.isLoading && !storageSummaryData;
   const summaryData = summary.data || storageSummaryData;
 
+  const isEmpty = summaryData
+    ? Object.values(summaryData).every((value) => !value)
+    : false;
+
   return (
     <div className="h-full w-1/2 rounded-lg border border-gray-100 bg-white p-3 dark:border-gray-700 dark:bg-gray-800">
       <div className="mb-5 flex w-full items-center justify-between">
@@ -66,14 +70,22 @@ export default function Summary() {
         </Select>
       </div>
 
-      {isLoading ? (
+      {isEmpty && (
+        <p className="mt-16 text-center text-lg font-light text-gray-500">
+          No data available
+        </p>
+      )}
+
+      {isLoading && (
         <div>
           <Skeleton height="20px" className="mb-3" />
           <Skeleton height="20px" className="mb-3" />
           <Skeleton height="20px" className="mb-3" />
           <Skeleton height="20px" className="mb-3" />
         </div>
-      ) : (
+      )}
+
+      {!isEmpty && summaryData && (
         <>
           <div className="mb-2 flex items-center justify-between">
             <p className="text-sm font-bold tracking-wide text-gray-500 dark:text-gray-400">
