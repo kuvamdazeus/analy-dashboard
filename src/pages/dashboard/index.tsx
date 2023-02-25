@@ -2,6 +2,7 @@ import CreateProject from "@/components/Dashboard/CreateProject";
 import Navbar from "@/components/Dashboard/Navbar";
 import Project from "@/components/Dashboard/Project";
 import { api } from "@/utils/api";
+import Head from "next/head";
 
 export default function Dashboard() {
   const user = api.user.getUser.useQuery(undefined, {
@@ -10,6 +11,10 @@ export default function Dashboard() {
 
   return (
     <>
+      <Head>
+        <title>Analy | Dashboard</title>
+      </Head>
+
       <Navbar />
 
       <section className={`p-5`}>

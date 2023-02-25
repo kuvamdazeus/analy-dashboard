@@ -1,17 +1,22 @@
 import dynamic from "next/dynamic";
+import Head from "next/head";
 
 const Navbar = dynamic(() => import("@/components/Dashboard/Navbar"), {
   ssr: false,
 });
+
 const Summary = dynamic(() => import("@/components/Dashboard/Summary"), {
   ssr: false,
 });
+
 const TopPages = dynamic(() => import("@/components/Dashboard/TopPages"), {
   ssr: false,
 });
+
 const TopSources = dynamic(() => import("@/components/Dashboard/TopSources"), {
   ssr: false,
 });
+
 const DashboardChart = dynamic(
   () => import("@/components/Dashboard/DashboardChart"),
   { ssr: false }
@@ -24,6 +29,10 @@ const RealtimeStats = dynamic(
 export default function ProjectPage() {
   return (
     <>
+      <Head>
+        <title>Analy | Dashboard</title>
+      </Head>
+
       <Navbar />
 
       <section className={`bg-gray-100 p-5 dark:bg-gray-900 dark:text-white`}>
