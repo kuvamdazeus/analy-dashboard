@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { GITHUB_OAUTH_URI } from "@/constants";
 import type { GetServerSideProps, NextApiRequest } from "next";
 import { userCookie } from "@/server/utils/cookies";
+import Head from "next/head";
 
 interface Props {
   loggedIn: boolean;
@@ -21,16 +22,21 @@ export default function Index({ loggedIn }: Props) {
   }, [isRedirect]);
 
   return (
-    <section className="flex h-screen flex-col items-center justify-center">
-      <p className="mb-5 text-3xl font-bold">Analy Dashboard</p>
+    <>
+      <Head>
+        <title>Analy - Simple Analytics client for your web application!</title>
+      </Head>
+      <section className="flex h-screen flex-col items-center justify-center">
+        <p className="mb-5 text-3xl font-bold">Analy Dashboard</p>
 
-      <a
-        href={canRedirect ? "/dashboard" : GITHUB_OAUTH_URI()}
-        className="rounded bg-gray-600 px-12 py-2 text-lg text-white"
-      >
-        Login with Github
-      </a>
-    </section>
+        <a
+          href={canRedirect ? "/dashboard" : GITHUB_OAUTH_URI()}
+          className="rounded bg-gray-600 px-12 py-2 text-lg text-white"
+        >
+          Login with Github
+        </a>
+      </section>
+    </>
   );
 }
 
