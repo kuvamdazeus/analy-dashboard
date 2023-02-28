@@ -1,4 +1,12 @@
 import { prisma } from "@/server/db";
+import {
+  Button,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Select,
+} from "@chakra-ui/react";
 import type { GetServerSideProps } from "next";
 import { useState } from "react";
 import { FiFrown, FiMeh, FiSmile } from "react-icons/fi";
@@ -73,6 +81,42 @@ export default function FeedbackPage({
               <FiFrown className="text-4xl" />
             </div>
           </div>
+
+          <p className="mt-12 mb-3 text-lg italic">
+            How much do you think you need the product?
+          </p>
+          <Select className="">
+            <option>Definitely need it</option>
+            <option>Kind of need it</option>
+            <option>Dont really need it</option>
+            <option>Definitely dont need it</option>
+          </Select>
+
+          <p className="mt-12 mb-3 text-lg italic">
+            How likely are you to recommend the product to a friend?
+          </p>
+          <Select className="">
+            <option>Definitely</option>
+            <option>Probably</option>
+            <option>Probably not</option>
+            <option>Definitely not</option>
+          </Select>
+
+          <p className="mt-12 mb-3 text-lg italic">
+            What do you like the most about the product?
+          </p>
+          <textarea className="h-24 w-full border bg-transparent p-2" />
+
+          <p className="mt-12 mb-3 text-lg italic">
+            What do you like the least about the product?
+          </p>
+          <textarea className="h-24 w-full border bg-transparent p-2" />
+
+          <center>
+            <button className="mt-12 w-full bg-green-500 p-3 text-lg font-bold text-white transition-all duration-300 hover:opacity-80">
+              Submit Feedback
+            </button>
+          </center>
         </div>
       </section>
     </div>
