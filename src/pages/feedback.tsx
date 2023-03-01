@@ -16,7 +16,9 @@ export default function FeedbackPage({
   project_name,
   project_url,
 }: Props) {
-  const feedbackMutation = api.feedback.publishFeedback.useMutation();
+  const feedbackMutation = api.feedback.publishFeedback.useMutation({
+    onSuccess: () => window.close(),
+  });
 
   const [rating, setRating] = useState<1 | 0 | -1 | null>(null);
   const [neediness, setNeediness] = useState<-2 | -1 | 1 | 2>(2);
