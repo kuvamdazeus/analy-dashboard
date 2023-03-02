@@ -1,3 +1,4 @@
+import { WORD_RATING } from "@/constants";
 import { prisma } from "@/server/db";
 import { api } from "@/utils/api";
 import { Select } from "@chakra-ui/react";
@@ -105,10 +106,9 @@ export default function FeedbackPage({
             value={neediness}
             onChange={(e) => setNeediness(parseInt(e.target.value) as any)}
           >
-            <option value={2}>Definitely need it</option>
-            <option value={1}>Kind of need it</option>
-            <option value={-1}>Dont really need it</option>
-            <option value={-2}>Definitely dont need it</option>
+            {WORD_RATING.map(({ label, value }) => (
+              <option value={value}>{label} needed</option>
+            ))}
           </Select>
 
           <p className="mt-12 mb-3 text-sm italic lg:text-lg">
@@ -119,10 +119,9 @@ export default function FeedbackPage({
             value={recommended}
             onChange={(e) => setRecommended(parseInt(e.target.value) as any)}
           >
-            <option value={2}>Definitely</option>
-            <option value={1}>Probably</option>
-            <option value={-1}>Probably not</option>
-            <option value={-2}>Definitely not</option>
+            {WORD_RATING.map(({ label, value }) => (
+              <option value={value}>{label}</option>
+            ))}
           </Select>
 
           <p className="mt-12 mb-3 text-sm italic lg:text-lg">

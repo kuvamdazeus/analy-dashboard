@@ -21,8 +21,14 @@ const DashboardChart = dynamic(
   () => import("@/components/Dashboard/DashboardChart"),
   { ssr: false }
 );
+
 const RealtimeStats = dynamic(
   () => import("@/components/Dashboard/RealtimeStats"),
+  { ssr: false }
+);
+
+const UserFeedback = dynamic(
+  () => import("@/components/Dashboard/UserFeedback"),
   { ssr: false }
 );
 
@@ -46,8 +52,10 @@ export default function ProjectPage() {
 
         <DashboardChart />
 
-        <div className="my-5 flex gap-5">
+        <div className="my-5 flex h-[500px] gap-5">
           <RealtimeStats />
+
+          <UserFeedback />
         </div>
       </section>
     </>

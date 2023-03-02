@@ -9,6 +9,7 @@ import {
   makeProjectPublic,
   updateProject,
 } from "../controllers/projects";
+import { getFeedbackData } from "../controllers/feedback";
 
 export const dashboardRouter = createTRPCRouter({
   getSummaryData,
@@ -20,4 +21,5 @@ export const dashboardRouter = createTRPCRouter({
   makeProjectPublic,
   createProject,
   updateProject,
+  getFeedbackData,
 });
