@@ -24,7 +24,7 @@ export default function Feedback({ feedback }: Props) {
     totalRating > 2 ? positive_comment || "" : negative_comment || "";
 
   return (
-    <section className="mb-3 flex items-center gap-3 rounded bg-gray-700 py-2 px-3">
+    <section className="mb-3 flex items-center gap-3 rounded bg-gray-100 py-2 px-3 dark:bg-gray-700">
       <p className="text-2xl">{emoji}</p>
       <p className="text-sm">
         {WORD_RATING.find(({ value }) => value === neediness)?.label} needed
