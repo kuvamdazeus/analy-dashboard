@@ -45,5 +45,5 @@ export const getFeedbackData = protectedPublicRead
       }),
     ]);
 
-    return { feedbackData, totalPages: Math.floor(totalRows / 25) };
+    return { feedbackData, totalPages: Math.ceil(totalRows / 25) };
   });
