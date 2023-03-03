@@ -28,9 +28,7 @@ export default function FeedbackPage({
   const [positive_comment, setPositiveComment] = useState("");
 
   const publishFeedback = async () => {
-    if (!rating || !neediness || !recommended) {
-      return;
-    }
+    if (rating === null) return;
 
     feedbackMutation.mutate({
       session_id,
@@ -41,6 +39,8 @@ export default function FeedbackPage({
       positive_comment,
     });
   };
+
+  console.log(rating, neediness, recommended, feedbackMutation.isLoading);
 
   return (
     <section className="flex justify-center">
@@ -144,13 +144,8 @@ export default function FeedbackPage({
         <center>
           <button
             onClick={publishFeedback}
-            disabled={
-              !rating ||
-              !neediness ||
-              !recommended ||
-              feedbackMutation.isLoading
-            }
-            className="mt-12 w-full bg-green-500 p-3 text-lg font-bold text-white transition-all duration-300 hover:opacity-80"
+            disabled={rating === null}
+            className="mt-12 w-full bg-green-500 p-3 text-lg font-bold text-white transition-all duration-300 hover:opacity-80 disabled:bg-gray-500 disabled:hover:opacity-100"
           >
             Submit Feedback
           </button>

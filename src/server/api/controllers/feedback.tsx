@@ -9,11 +9,13 @@ export const getFeedbackData = protectedPublicRead
       duration: durationSchema,
       projectId: z.string().min(1),
       // filters: ...
-      offset: z.number().min(0).default(0).describe("Pagination offset"),
+      pageNumber: z.number().min(0).default(0).describe("Pagination offset"),
     })
   )
-  .query(async ({ ctx, input: { projectId, duration, offset } }) => {
-    const [feedbackData, total] = await Promise.all([
+  .query(async ({ ctx, input: { projectId, duration, pageNumber } }) => {
+    const offset = pageNumber * 25;
+
+    const [feedbackData, totalRows] = await Promise.all([
       ctx.prisma.feedback.findMany({
         where: {
           session: {
@@ -43,5 +45,5 @@ export const getFeedbackData = protectedPublicRead
       }),
     ]);
 
-    return { feedbackData, total };
+    return { feedbackData, totalPages: Math.floor(totalRows / 25) };
   });

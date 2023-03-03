@@ -1,23 +1,24 @@
 import { DURATIONS } from "@/constants";
 import { api } from "@/utils/api";
-import { Box, Select, useColorMode } from "@chakra-ui/react";
-import { Pagination } from "@nextui-org/react";
+import { Box, Select } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { FiSliders } from "react-icons/fi";
+import Pagination from "../common/Pagination";
 import Feedback from "./Feedback";
 
 export default function UserFeedback() {
-  const { colorMode } = useColorMode();
-
   const router = useRouter();
 
   const projectId =
     ((router.query.pid as string) || "").split("/").at(-1) || "";
 
+  const [pageNumber, setPageNumber] = useState(0);
+
   const userFeedback = api.dashboard.getFeedbackData.useQuery({
     duration: "7d",
     projectId,
-    offset: 0,
+    pageNumber,
   });
 
   const fetchFeedbackData = (e: React.ChangeEvent<HTMLSelectElement>) => {};
@@ -61,7 +62,12 @@ export default function UserFeedback() {
           <p className="text-sm font-bold">Filters</p>
         </button>
 
-        <Pagination total={10} initialPage={1} />
+        {userFeedback.data?.totalPages ? (
+          <Pagination
+            pageCount={userFeedback.data.totalPages}
+            onChange={({ selected }) => setPageNumber(selected)}
+          />
+        ) : null}
       </div>
     </Box>
   );
