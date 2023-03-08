@@ -1,4 +1,5 @@
 import { DURATIONS } from "@/constants";
+import { Duration } from "@/types";
 import { api } from "@/utils/api";
 import { Box, Select } from "@chakra-ui/react";
 import { useRouter } from "next/router";
@@ -14,14 +15,13 @@ export default function UserFeedback() {
     ((router.query.pid as string) || "").split("/").at(-1) || "";
 
   const [pageNumber, setPageNumber] = useState(0);
+  const [duration, setDuration] = useState<Duration>("7d");
 
   const userFeedback = api.dashboard.getFeedbackData.useQuery({
-    duration: "7d",
+    duration,
     projectId,
     pageNumber,
   });
-
-  const fetchFeedbackData = (e: React.ChangeEvent<HTMLSelectElement>) => {};
 
   return (
     <Box
@@ -36,7 +36,8 @@ export default function UserFeedback() {
         <p className="text-xl font-bold">User Feedback</p>
 
         <Select
-          onChange={fetchFeedbackData}
+          value={duration}
+          onChange={(e) => setDuration(e.target.value as Duration)}
           borderColor="gray.500"
           w="max-content"
           size="sm"
@@ -52,7 +53,7 @@ export default function UserFeedback() {
 
       <div className="h-full overflow-y-scroll rounded-lg p-3">
         {userFeedback.data?.feedbackData?.map((feedback) => (
-          <Feedback feedback={feedback} />
+          <Feedback key={feedback.id} feedback={feedback} />
         ))}
       </div>
 
