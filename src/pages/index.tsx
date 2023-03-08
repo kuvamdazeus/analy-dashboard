@@ -12,7 +12,7 @@ interface Props {
 
 export default function Index({ loggedIn }: Props) {
   const router = useRouter();
-  const [feedbackUrl, setFeedbackUrl] = useState<string>(getFeedbackUrl());
+  const [feedbackUrl, setFeedbackUrl] = useState<string>("");
 
   const isRedirect = !!router.query.redirect;
   const canRedirect = loggedIn;
