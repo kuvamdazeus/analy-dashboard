@@ -3,6 +3,7 @@ import { prisma } from "@/server/db";
 import { api } from "@/utils/api";
 import { Select } from "@chakra-ui/react";
 import type { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { FiFrown, FiMeh, FiSmile } from "react-icons/fi";
 
@@ -17,8 +18,13 @@ export default function FeedbackPage({
   project_name,
   project_url,
 }: Props) {
+  const router = useRouter();
+
   const feedbackMutation = api.feedback.publishFeedback.useMutation({
-    onSuccess: () => window.close(),
+    onSuccess: () => {
+      window.close();
+      router.replace("/");
+    },
   });
 
   const [rating, setRating] = useState<1 | 0 | -1 | null>(null);
@@ -39,8 +45,6 @@ export default function FeedbackPage({
       positive_comment,
     });
   };
-
-  console.log(rating, neediness, recommended, feedbackMutation.isLoading);
 
   return (
     <section className="flex justify-center">
