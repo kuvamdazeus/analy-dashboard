@@ -2,15 +2,10 @@ import formatDistance from "date-fns/formatDistance";
 import { WORD_RATING } from "@/constants";
 import type { Feedback } from "@prisma/client";
 import {
-  Button,
-  Divider,
   Modal,
-  ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalHeader,
   ModalOverlay,
-  Select,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { FiFrown, FiMeh, FiSmile } from "react-icons/fi";
