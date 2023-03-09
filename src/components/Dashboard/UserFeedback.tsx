@@ -1,7 +1,15 @@
 import { DURATIONS } from "@/constants";
 import { Duration } from "@/types";
 import { api } from "@/utils/api";
-import { Box, Select } from "@chakra-ui/react";
+import {
+  Box,
+  Divider,
+  Popover,
+  PopoverArrow,
+  PopoverContent,
+  PopoverTrigger,
+  Select,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { FiSliders } from "react-icons/fi";
@@ -16,11 +24,14 @@ export default function UserFeedback() {
 
   const [pageNumber, setPageNumber] = useState(0);
   const [duration, setDuration] = useState<Duration>("7d");
+  const [filterPopoverOpen, setFilterPopoverOpen] = useState(false);
+  const [filter, setFilter] = useState<"positive" | "negative" | "all">("all");
 
   const userFeedback = api.dashboard.getFeedbackData.useQuery({
     duration,
     projectId,
     pageNumber,
+    filter,
   });
 
   return (
@@ -58,10 +69,65 @@ export default function UserFeedback() {
       </div>
 
       <div className="flex w-full items-center justify-between border-t border-gray-100 pt-3 dark:border-gray-700">
-        <button className="flex items-center rounded-full bg-gray-200 px-3 py-1 dark:bg-gray-700">
-          <FiSliders className="mr-2" />
-          <p className="text-sm font-bold">Filters</p>
-        </button>
+        <Popover
+          isOpen={filterPopoverOpen}
+          onClose={() => setFilterPopoverOpen(false)}
+        >
+          <PopoverTrigger>
+            <button
+              onClick={() => setFilterPopoverOpen(!filterPopoverOpen)}
+              className="flex items-center rounded-full bg-gray-200 px-3 py-1 dark:bg-gray-700"
+            >
+              <FiSliders className="mr-2" />
+              <p className="text-sm font-bold">Filters</p>
+            </button>
+          </PopoverTrigger>
+
+          <PopoverContent>
+            <PopoverArrow />
+            <div className="p-3">
+              <p className="text-lg font-bold">Filters</p>
+
+              <Divider my="1" />
+
+              <p
+                onClick={() => {
+                  setFilter("positive");
+                  setFilterPopoverOpen(false);
+                }}
+                className={`mb-1 cursor-pointer p-1 ${
+                  filter === "positive" ? "font-bold" : "font-light"
+                } hover:bg-gray-700`}
+              >
+                😍 Postive ratings
+              </p>
+
+              <p
+                onClick={() => {
+                  setFilter("negative");
+                  setFilterPopoverOpen(false);
+                }}
+                className={`cursor-pointer p-1 ${
+                  filter === "negative" ? "font-bold" : "font-light"
+                } hover:bg-gray-700`}
+              >
+                😡 Negative ratings
+              </p>
+
+              <p
+                onClick={() => {
+                  setFilter("all");
+                  setFilterPopoverOpen(false);
+                }}
+                className={`cursor-pointer p-1 ${
+                  filter === "all" ? "font-bold" : "font-light"
+                } hover:bg-gray-700`}
+              >
+                🥹 All ratings
+              </p>
+            </div>
+          </PopoverContent>
+        </Popover>
 
         {userFeedback.data?.totalPages ? (
           <Pagination
