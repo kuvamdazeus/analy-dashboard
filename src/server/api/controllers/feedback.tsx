@@ -16,8 +16,6 @@ export const getFeedbackData = protectedPublicRead
   .query(
     async ({ ctx, input: { projectId, duration, pageNumber, filter } }) => {
       const offset = pageNumber * 25;
-
-      // filters object has gt and lt where filter is positive, negative or all
       const filters: any = {};
 
       if (filter === "positive") {
