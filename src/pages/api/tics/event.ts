@@ -13,6 +13,8 @@ export default async function handler(
     optionsSuccessStatus: 200,
   });
 
+  res.status(200).json({ message: "OK" });
+
   const { session, event } = req.body;
 
   if (!session || !event || !session.project_key)
@@ -40,6 +42,4 @@ export default async function handler(
     console.log(err);
     return res.status(500).json({ message: "Internal Server Error" });
   }
-
-  return res.status(200).json({ message: "OK" });
 }

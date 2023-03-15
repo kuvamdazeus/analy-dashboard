@@ -2196,10 +2196,10 @@ ajv@^6.10.0, ajv@^6.12.4:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-analy@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/analy/-/analy-0.3.0.tgz#f03f979656ac3ff627c1376e765ecd47c0c1c0eb"
-  integrity sha512-ENuOd3Me3/gwTeqL84cuBSN8e917Z8LVFh6A/UKYRJwkLXafZn/C7K74WXxwbUsH3rscjmLhR9+jjfKOaN3q9Q==
+analy@^0.3.5:
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/analy/-/analy-0.3.5.tgz#15226f09b417fa86579d9cfee14403f6553d0b3e"
+  integrity sha512-+EA68GON7Zb2DD2crqSQrJ7W0E7fm2Ky/BKxFNqFsz8Y9zYx0o1nKrMZ/g2crgirxEDVhvXjscUn3db+iC55ug==
   dependencies:
     crypto-js "^4.1.1"
     uuid "^9.0.0"

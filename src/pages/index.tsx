@@ -44,6 +44,8 @@ export default function Index({ loggedIn }: Props) {
 
         <a
           target="_blank"
+          analy-event="feedback_page_redirect"
+          analy-dom-event="click"
           href={feedbackUrl}
           className="mt-12 text-blue-500 underline"
         >
