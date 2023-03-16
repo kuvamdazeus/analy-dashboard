@@ -4,7 +4,7 @@ import { api } from "@/utils/api";
 import { getJsonStorageData } from "@/utils/misc";
 import { Button, Skeleton, useColorMode } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { FiMoon, FiSun } from "react-icons/fi";
+import { FiFilter, FiHome, FiMoon, FiSun } from "react-icons/fi";
 import NavProject from "./NavProject";
 
 export default function Navbar() {
@@ -25,15 +25,19 @@ export default function Navbar() {
   });
 
   const displayProjectName = /dashboard\/.+\-.+\-.+/.test(router.asPath);
-  const projectId = ((router.query.pid as string) || "").split("/").at(-1);
+  const projectId = router.query.pid as string;
 
   const storageUser = getJsonStorageData("user_cache") as
     | StorageUser
     | undefined;
   const userData = user.data || storageUser;
 
+  const userOwnsProject = !!user.data?.projects.filter(
+    (project) => project.id === projectId
+  ).length;
+
   return (
-    <nav className="flex items-center justify-between border-b border-dashed border-gray-400 bg-white px-5 py-5 dark:border-gray-500 dark:bg-gray-900">
+    <nav className="relative flex items-center justify-between border-b border-dashed border-gray-400 bg-white px-5 py-5 dark:border-gray-500 dark:bg-gray-900">
       {user.isLoading && <Skeleton className="h-8 w-64" />}
 
       {displayProjectName &&
@@ -42,6 +46,34 @@ export default function Navbar() {
         <NavProject />
       ) : (
         <div />
+      )}
+
+      {userOwnsProject && (
+        <div className="absolute left-0 top-0 flex w-full justify-center">
+          <div className="flex h-10 w-32 items-center justify-between rounded-b-xl border-r border-l border-b px-2">
+            <div className="item-center flex flex-grow cursor-pointer justify-center border-r text-lg hover:text-xl">
+              <FiHome
+                onClick={() => router.push(`/dashboard/${projectId}`)}
+                style={{
+                  color: /\/dashboard\/[\w\-]+$/.test(router.asPath)
+                    ? "rgb(20,184,166)"
+                    : "white",
+                }}
+              />
+            </div>
+
+            <div className="item-center flex flex-grow cursor-pointer justify-center text-lg hover:text-xl">
+              <FiFilter
+                onClick={() => router.push(`/dashboard/${projectId}/funnels`)}
+                style={{
+                  color: /\/dashboard\/.+\/funnels$/.test(router.asPath)
+                    ? "rgb(20,184,166)"
+                    : "white",
+                }}
+              />
+            </div>
+          </div>
+        </div>
       )}
 
       <div className="flex items-center">

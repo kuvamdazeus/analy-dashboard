@@ -17,7 +17,7 @@ export default function NavProject() {
   });
 
   const currentProject = user.data?.projects.find(
-    (project) => project.id === location.pathname.split("/").at(-1)
+    (project) => project.id === router.query.pid
   );
 
   const [showCopiedText, setShowCopiedText] = useState(false);
