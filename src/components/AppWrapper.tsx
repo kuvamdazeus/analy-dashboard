@@ -22,7 +22,7 @@ export default function AppWrapper({
         <p className="mb-5 text-3xl">We're Sorry!</p>
 
         <p className="mb-5 text-center font-light">
-          This website is not available on smaller screen resolutions yet...
+          This website is not available for small screen resolutions yet...
           <br />
           We are working towards a mobile-friendly design!
         </p>
