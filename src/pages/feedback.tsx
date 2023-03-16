@@ -161,6 +161,7 @@ export default function FeedbackPage({
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   const sessionId = query.sid as string;
+  console.log(sessionId);
 
   if (!sessionId) {
     return {
