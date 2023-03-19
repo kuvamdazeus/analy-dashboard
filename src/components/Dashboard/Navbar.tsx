@@ -22,6 +22,7 @@ export default function Navbar() {
         } as StorageUser)
       );
     },
+    retry: false,
   });
 
   const displayProjectName = /dashboard\/.+\-.+\-.+/.test(router.asPath);
