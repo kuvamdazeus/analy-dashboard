@@ -57,7 +57,7 @@ export default function Navbar() {
                 style={{
                   color: /\/dashboard\/[\w\-]+$/.test(router.asPath)
                     ? "rgb(20,184,166)"
-                    : "white",
+                    : "grey",
                 }}
               />
             </div>
@@ -68,7 +68,7 @@ export default function Navbar() {
                 style={{
                   color: /\/dashboard\/.+\/funnels$/.test(router.asPath)
                     ? "rgb(20,184,166)"
-                    : "white",
+                    : "grey",
                 }}
               />
             </div>
