@@ -4,7 +4,7 @@ import { api } from "@/utils/api";
 import { getJsonStorageData } from "@/utils/misc";
 import { Button, Skeleton, useColorMode } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { FiFilter, FiHome, FiMoon, FiSun } from "react-icons/fi";
+import { FiMoon, FiSun } from "react-icons/fi";
 import NavProject from "./NavProject";
 
 export default function Navbar() {
@@ -49,7 +49,7 @@ export default function Navbar() {
         <div />
       )}
 
-      {userOwnsProject && (
+      {/* {userOwnsProject && (
         <div className="absolute left-0 top-0 flex w-full justify-center">
           <div className="flex h-10 w-32 items-center justify-between rounded-b-xl border-r border-l border-b px-2">
             <div className="item-center flex flex-grow cursor-pointer justify-center border-r text-lg hover:text-xl">
@@ -75,7 +75,7 @@ export default function Navbar() {
             </div>
           </div>
         </div>
-      )}
+      )} */}
 
       <div className="flex items-center">
         {userData && (

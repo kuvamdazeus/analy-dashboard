@@ -47,7 +47,7 @@ export default function CreateProjectModal({
   });
 
   const currentProject = user.data?.projects.find(
-    (project) => project.id === location.pathname.split("/").at(-1)
+    (project) => project.id === router.query.pid
   );
 
   const [name, setName] = useState(
@@ -59,22 +59,20 @@ export default function CreateProjectModal({
   );
 
   const submit = () => {
-    if (!currentProject) return;
-
     let parsedUrl = url.trim();
 
     if (!url.startsWith("https://") && !url.startsWith("http://")) {
       parsedUrl = `https://${url}`;
     }
 
-    if (!isEdit) {
-      createProjectMutation.mutate({ name, url: parsedUrl });
-    } else {
+    if (isEdit && currentProject) {
       updateProjectMutation.mutate({
         projectId: currentProject.id,
         name,
         url: parsedUrl,
       });
+    } else {
+      createProjectMutation.mutate({ name, url: parsedUrl });
     }
   };
 
@@ -121,6 +119,7 @@ export default function CreateProjectModal({
               bg="green.400"
               color="white"
               mt="7"
+              _disabled={{ bg: "gray.500" }}
               disabled={createProjectMutation.isLoading}
             >
               {isEdit ? "Save" : "Create"}
