@@ -38,12 +38,12 @@ export default async function handler(
 
   try {
     const { id } = await prisma.user.upsert({
-      where: { email },
+      where: { username: login },
       update: {},
       create: {
         username: login,
-        email,
-        name,
+        email: email || "",
+        name: name || login,
         avatar_url,
       },
     });
