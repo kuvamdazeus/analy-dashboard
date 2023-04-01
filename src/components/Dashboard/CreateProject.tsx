@@ -20,7 +20,7 @@ export default function CreateProject() {
           dark:to-slate-800 dark:hover:shadow-[7px_7px_0px_0px_#000000]
         "
       >
-        <p className="font-semibold">Create a New Project</p>
+        <p className="font-bold">Create a New Project</p>
       </div>
     </>
   );
